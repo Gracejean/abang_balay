@@ -122,25 +122,47 @@
 </style>
 
 <script>
-import AUTH from "services/auth";
+// import AUTH from "services/auth";
+import ROUTER from "router";
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      auth: AUTH,
-      email: null,
-      password: null,
+      // auth: AUTH,
+      email: "",
+      password: "",
     };
   },
   methods: {
-    submit(e){
-      e.preventDefault()
-      let user = AUTH.register(this.email, this.password);
-      sessionStorage.setItem("Email", this.email);
-      sessionStorage.setItem("Password", this.password);
-      AUTH.setUser(user);
-      this.$swal.fire("Welcome, You are now Logged in", "success");
+    submit(){
+      // e.preventDefault()
+      // let user = AUTH.register(this.email, this.password);
+      // sessionStorage.setItem("Email", this.email);
+      // sessionStorage.setItem("Password", this.password);
+      // AUTH.setUser(user);
+      // this.$swal.fire("Welcome, You are now Logged in", "success");
+    axios
+        .post("http://localhost:3000/register", {
+          email: this.email,
+          password: this.password
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.login) {
+            ROUTER.push('/dashboard')
+          } else {
+            alert('try again')
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          
+        });
+    // }
+    
     }
+    
   }
 };
 </script>

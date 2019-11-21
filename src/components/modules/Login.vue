@@ -136,16 +136,16 @@
 </style>
 
 <script>
-// import ROUTER from "router";
-// import axios from 'axios';
-import AUTH from "services/auth";
+import ROUTER from "router";
+import axios from 'axios';
+// import AUTH from "services/auth";
 export default {
   data() {
     return {
-      auth: AUTH,
+      // auth: AUTH,
       overlay: false,
-      email: null,
-      password: null
+      email: "",
+      password: ""
     };
   },
   watch: {
@@ -156,35 +156,35 @@ export default {
       },
     },
   methods: {
-    login(e) {
-      e.preventDefault()
-      let user = AUTH.login(this.email, this.password);
-      AUTH.setUser(user);
-      if(user != null){
-        this.$router.push('/dashboard');
-        this.$swal.fire("Welcome, You are now Logged in", "success");
-      }else if(this.email === '' && this.password === ''){
-        this.$swal.fire("Please fill up the input field", " ", "warning");
-      }else{
-        this.$swal.fire("Incorrect username or password!", "Please try again", "error");
+    login() {
+    //   e.preventDefault()
+    //   let user = AUTH.login(this.email, this.password);
+    //   AUTH.setUser(user);
+    //   if(user != null){
+    //     this.$router.push('/dashboard');
+    //     this.$swal.fire("Welcome, You are now Logged in", "success");
+    //   }else if(this.email === '' && this.password === ''){
+    //     this.$swal.fire("Please fill up the input field", " ", "warning");
+    //   }else{
+    //     this.$swal.fire("Incorrect username or password!", "Please try again", "error");
       
-    }
-      // axios
-      //   .post("http://localhost:5555/login", {
-      //     username: this.email,
-      //     password: this.password
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     if (res.data.login) {
-      //       ROUTER.push('/customerdashboard')
-      //     } else {
-      //       alert('try again')
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+    // }
+      axios
+        .post("http://localhost:3000/login", {
+          email: this.email,
+          password: this.password
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.login) {
+            ROUTER.push('/dashboard')
+          } else {
+            alert('try again')
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
